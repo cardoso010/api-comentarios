@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Postagem extends Model
 {
+    protected $table = 'postagens';
+
     const CREATED_AT = 'data_criado';
     const UPDATED_AT = 'data_alterada';
     

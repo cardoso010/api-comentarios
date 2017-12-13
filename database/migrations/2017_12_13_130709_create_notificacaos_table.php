@@ -16,16 +16,13 @@ class CreateNotificacaosTable extends Migration
         Schema::create('notificacoes', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('postagem_id')->unsigned();
-            $table->foreign('postagem_id')
-                ->references('id')
-                ->on('postagens')
-                ->onDelete('cascade');
             $table->integer('usuario_id')->unsigned();
-            $table->foreign('usuario_id')
-                ->references('id')
-                ->on('usuarios')
-                ->onDelete('cascade');
             $table->timestamp('data_visualizou');
+        });
+
+        Schema::table('notificacoes', function(Blueprint $table){
+            $table->foreign('postagem_id')->references('id')->on('postagens')->onDelete('cascade');
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
         });
     }
 

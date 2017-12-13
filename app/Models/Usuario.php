@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
 {
+    protected $table = 'usuarios';
 
     const CREATED_AT = 'data_criado';
     const UPDATED_AT = 'data_alterada';

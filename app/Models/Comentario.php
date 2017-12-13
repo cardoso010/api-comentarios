@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comentario extends Model
 {
+    protected $table = 'comentarios';
 
     const CREATED_AT = 'data_criado';
     const UPDATED_AT = 'data_alterada';
