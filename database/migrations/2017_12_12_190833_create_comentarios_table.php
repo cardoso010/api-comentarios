@@ -17,16 +17,13 @@ class CreateComentariosTable extends Migration
             $table->increments('id');
             $table->string('comentario', 500);
             $table->integer('usuario_id')->unsigned();
-            $table->foreign('usuario_id')
-                ->references('id')
-                ->on('usuarios')
-                ->onDelete('cascade');
             $table->integer('postagem_id')->unsigned();
-            $table->foreign('postagem_id')
-                ->references('id')
-                ->on('postagens')
-                ->onDelete('cascade');
             $table->timestamps();
+        });
+
+        Schema::table('comentarios', function(Blueprint $table){
+            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('postagem_id')->references('id')->on('postagens')->onDelete('cascade');
         });
     }
 
