@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Usuario extends Model
 {
-    protected $fillable = ['nome', 'login', 'website', 'senha', 'assinante'];
+
+    const CREATED_AT = 'data_criado';
+    const UPDATED_AT = 'data_alterada';
+
+    protected $fillable = ['nome', 'login', 'senha', 'assinante'];
     
     protected $hidden = ['senha'];
 

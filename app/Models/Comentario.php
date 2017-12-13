@@ -6,7 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Comentario extends Model
 {
-    protected $fillable = ['comentario', 'lido', 'usuario_id', 'postagem_id'];
+
+    const CREATED_AT = 'data_criado';
+    const UPDATED_AT = 'data_alterada';
+
+    protected $fillable = ['comentario', 'usuario_id', 'postagem_id'];
     
     function usuario() {
         return $this->belongsTo('App\Models\Usuario');
