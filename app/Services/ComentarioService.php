@@ -28,14 +28,22 @@ class ComentarioService
 
         $usuarioComentario = Usuario::findOrFail($request->get('usuario_id'));
         $this->validarLimiteComentarioSegundo($usuarioComentario->id);
+        error_log($usuarioComentario->assinante);
         if($usuarioComentario->assinante){
+            error_log("entrou primeiro if");
             $retorno = true;
         } else {
+            error_log("entrou else");
             $usuarioPost = (new PostagemService(new Postagem()))->getUsuarioByPost($request->get('postagem_id'));
             if(!$usuarioComentario->assinante){
+                error_log("entrou if que não é assinante");
                 $comprandoDestaque = $request->get('comprando_destaque');
                 if(!empty($comprandoDestaque) && $comprandoDestaque){
-                    throw new GenericException("Usuario não pode inserir comentario pois não é assinante ou não está comprando destaque"); 
+                    $retorno = true;
+                    error_log("entrou if que pode");
+                } else {
+                    error_log("entrou else que não pode inserir");
+                    throw new GenericException("Usuario não pode inserir comentario pois não é assinante e não está comprando destaque"); 
                 }
             }
         }
