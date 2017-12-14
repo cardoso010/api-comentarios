@@ -13,6 +13,9 @@ use App\Exceptions\GenericException;
 
 class ComentarioService
 {
+    const MAXCOMENTARIOS = 5;
+    const SEGUNDOSCOMENTARIOS = 10;
+
     public function __construct(Comentario $comentario){
         $this->comentario = $comentario;
     }
@@ -24,13 +27,16 @@ class ComentarioService
         $retorno = false;
 
         $usuarioComentario = Usuario::findOrFail($request->get('usuario_id'));
+        $this->validarLimiteComentarioSegundo($usuarioComentario->id);
         if($usuarioComentario->assinante){
             $retorno = true;
         } else {
             $usuarioPost = (new PostagemService(new Postagem()))->getUsuarioByPost($request->get('postagem_id'));
             if(!$usuarioComentario->assinante){
                 $comprandoDestaque = $request->get('comprando_destaque');
-                $retorno = (!empty($comprandoDestaque) && $comprandoDestaque);
+                if(!empty($comprandoDestaque) && $comprandoDestaque){
+                    throw new GenericException("Usuario não pode inserir comentario pois não é assinante ou não está comprando destaque"); 
+                }
             }
         }
 
@@ -38,14 +44,28 @@ class ComentarioService
     }
 
     /**
+     * Metodo responsavel por validar limite de inserção de comentarios por segundos
+     */
+    public function validarLimiteComentarioSegundo($usuario_id){
+        $quantidade = $this->comentario
+                            ->where('usuario_id', $usuario_id)
+                            ->whereBetween('created_at', [
+                                                            \Carbon\Carbon::now(),
+                                                            \Carbon\Carbon::now()->subSeconds(ComentarioService::SEGUNDOSCOMENTARIOS)
+                                                         ]
+                            )->count();
+        if($quantidade > ComentarioService::MAXCOMENTARIOS){
+            throw new GenericException("Não se pode fazer mais que 5 comentarios em 10 segundos"); 
+        }
+
+    }
+
+    /**
      * Metodo responsavel por salvar o comentario
      */
     public function salvar(Request $request){
-       if(!$this->validar($request)){
-            // exception
-            throw new GenericException("Usuario não pode inserir comentario pois não é assinante ou não está comprando destaque"); 
-       }
-        
+        $this->validar($request);
+
         $valores = $request->only('usuario_id', 'postagem_id', 'comentario');
         $comentario = new Comentario();
         $comentario->fill($valores);
