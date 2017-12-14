@@ -22,6 +22,6 @@ use Illuminate\Http\Request;
 // });
 
 Route::post('comentarios', 'ComentariosController@salvar');
-Route::get('postagens/{postagem_id}/comentarios', 'PostagensController@lista_comentario');
-Route::get('usuarios/{usuario_id}/notificacoes', 'UsuariosController@lista_notificacoes');
+Route::get('postagens/{postagem_id}/comentarios', 'PostagensController@listaComentario');
+Route::get('usuarios/{usuario_id}/notificacoes', 'UsuariosController@listaNotificacoes');
 
