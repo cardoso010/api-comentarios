@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class UsuariosController extends Controller
 {
     //
-    public function lista_notificacoes($usuario_id){
+    public function listaNotificacoes($usuario_id){
         dd($usuario_id);
     }
 }
