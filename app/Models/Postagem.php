@@ -10,7 +10,7 @@ class Postagem extends Model
     
     protected $fillable = ['titulo', 'descricao', 'usuario_id'];
 
-    function usuario() {
+    public function usuario() {
         return $this->belongsTo('App\Models\Usuario');
     }
 }

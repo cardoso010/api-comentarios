@@ -10,11 +10,11 @@ class Comentario extends Model
 
     protected $fillable = ['comentario', 'usuario_id', 'postagem_id'];
     
-    function usuario() {
+    public function usuario() {
         return $this->belongsTo('App\Models\Usuario');
     }
 
-    function postagem() {
+    public function postagem() {
         return $this->belongsTo('App\Models\Postagem');
     }
 }

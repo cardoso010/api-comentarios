@@ -5,9 +5,11 @@ namespace App\Services;
 use App\Models\Comentario;
 use App\Models\Usuario;
 use App\Models\Notificacao;
+use App\Models\Postagem;
 use Validator;
 use Illuminate\Http\Request;
-use PostagemService;
+use App\Services\PostagemService;
+use App\Exceptions\GenericException;
 
 class ComentarioService
 {
@@ -16,12 +18,35 @@ class ComentarioService
     }
 
     /**
+     * Metodo responsavel por validar inserção do comentario
+     */
+    public function validar(Request $request){
+        $retorno = false;
+
+        $usuarioComentario = Usuario::findOrFail($request->get('usuario_id'));
+        if($usuarioComentario->assinante){
+            $retorno = true;
+        } else {
+            $usuarioPost = (new PostagemService(new Postagem()))->getUsuarioByPost($request->get('postagem_id'));
+            if(!$usuarioComentario->assinante){
+                $comprandoDestaque = $request->get('comprando_destaque');
+                $retorno = (!empty($comprandoDestaque) && $comprandoDestaque);
+            }
+        }
+
+        return $retorno;
+    }
+
+    /**
      * Metodo responsavel por salvar o comentario
      */
     public function salvar(Request $request){
-        $valores = $this->validar($request);
-        //Comentario::create($comentario);
-
+       if(!$this->validar($request)){
+            // exception
+            throw new GenericException("Usuario não pode inserir comentario pois não é assinante ou não está comprando destaque"); 
+       }
+        
+        $valores = $request->only('usuario_id', 'postagem_id', 'comentario');
         $comentario = new Comentario();
         $comentario->fill($valores);
         $comentario->save();
@@ -32,7 +57,7 @@ class ComentarioService
     }
 
     /**
-     * Metodo responsavel por validar inserção de comentarios
+     * Metodo responsavel por validar request para inserção de comentarios
      */
     public function comentarioValidator(Request $request) {
         $validator = Validator::make($request->all(), 
@@ -47,21 +72,6 @@ class ComentarioService
         );
 
         return $validator;
-    }
-
-    public function validar(Request $request){
-        $comprandoDestaque = $request->get('comprando_destaque');
-        if(!empty($comprandoDestaque) && $comprandoDestaque){
-            error_log("entrou");
-            error_log($comprandoDestaque);
-        }
-
-        $usuarioComentario = Usuario::findOrFail($request->get('usuario_id'));
-        $usuarioPost = (new PostagemService())->getUsuarioByPost($request->get('postagem_id'));
-        
-
-
-        return $request->only('usuario_id', 'postagem_id', 'comentario');
     }
 
 }

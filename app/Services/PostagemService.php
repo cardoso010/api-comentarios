@@ -11,7 +11,7 @@ class PostagemService
     }
 
     public function getUsuarioByPost($postagem_id){
-        return $this->postagem::findOrFail($postagem)->usuario();
+        return $this->postagem->findOrFail($postagem_id)->usuario()->first();
     }
 
 }

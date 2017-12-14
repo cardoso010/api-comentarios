@@ -7,6 +7,7 @@ use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use App\Exceptions\GenericException;
 
 class Handler extends ExceptionHandler
 {
@@ -77,6 +78,15 @@ class Handler extends ExceptionHandler
                     'messages' => []
                 ]
             ], 404);
+        }
+
+        if($exception instanceof GenericException) {
+            return response()->json([
+                'error' => [
+                    'description' => $exception->getMessage(),
+                    'messages' => $exception->getMessage()
+                ]
+            ], 400);
         }
 
 

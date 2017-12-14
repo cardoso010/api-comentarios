@@ -12,11 +12,11 @@ class Notificacao extends Model
 
     public $timestamps = false;
 
-    function usuario() {
+    public function usuario() {
         return $this->belongsTo('App\Models\Usuario');
     }
 
-    function postagem() {
+    public function postagem() {
         return $this->belongsTo('App\Models\Postagem');
     }
 }
