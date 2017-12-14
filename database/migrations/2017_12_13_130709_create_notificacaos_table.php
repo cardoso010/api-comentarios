@@ -17,7 +17,7 @@ class CreateNotificacaosTable extends Migration
             $table->increments('id');
             $table->integer('postagem_id')->unsigned();
             $table->integer('usuario_id')->unsigned();
-            $table->timestamp('data_visualizou');
+            $table->dateTime('data_visualizou')->nullable();
         });
 
         Schema::table('notificacoes', function(Blueprint $table){
