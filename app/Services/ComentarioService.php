@@ -4,8 +4,10 @@ namespace App\Services;
 
 use App\Models\Comentario;
 use App\Models\Usuario;
+use App\Models\Notificacao;
 use Validator;
 use Illuminate\Http\Request;
+use PostagemService;
 
 class ComentarioService
 {
@@ -17,8 +19,16 @@ class ComentarioService
      * Metodo responsavel por salvar o comentario
      */
     public function salvar(Request $request){
-        $comentario = validar($request);
-        Comentario::create($comentario);
+        $valores = $this->validar($request);
+        //Comentario::create($comentario);
+
+        $comentario = new Comentario();
+        $comentario->fill($valores);
+        $comentario->save();
+        if($comentario){
+            Notificacao::create($request->only('usuario_id', 'postagem_id'));
+        }
+        return $comentario;
     }
 
     /**
@@ -37,6 +47,21 @@ class ComentarioService
         );
 
         return $validator;
+    }
+
+    public function validar(Request $request){
+        $comprandoDestaque = $request->get('comprando_destaque');
+        if(!empty($comprandoDestaque) && $comprandoDestaque){
+            error_log("entrou");
+            error_log($comprandoDestaque);
+        }
+
+        $usuarioComentario = Usuario::findOrFail($request->get('usuario_id'));
+        $usuarioPost = (new PostagemService())->getUsuarioByPost($request->get('postagem_id'));
+        
+
+
+        return $request->only('usuario_id', 'postagem_id', 'comentario');
     }
 
 }
