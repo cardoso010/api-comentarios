@@ -8,9 +8,6 @@ class Comentario extends Model
 {
     protected $table = 'comentarios';
 
-    const CREATED_AT = 'data_criado';
-    const UPDATED_AT = 'data_alterada';
-
     protected $fillable = ['comentario', 'usuario_id', 'postagem_id'];
     
     function usuario() {
