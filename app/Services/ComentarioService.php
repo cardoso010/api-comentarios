@@ -55,7 +55,6 @@ class ComentarioService
                      ->get();
 
         if(intval($quantidade[0]->quantidade) > ComentarioService::MAXCOMENTARIOS){
-            error_log("Entrou");
             throw new GenericException("Não é permitido inserir mais que 5 comentarios em 10 segundos"); 
         }
     }

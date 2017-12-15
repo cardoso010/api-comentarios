@@ -57,7 +57,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'error' => [
                     'description' => 'URI invalido',
-                    'messages' => []
+                    'messages' => $exception->getMessage()
                 ]
             ], 404);
         }
@@ -66,7 +66,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'error' => [
                     'description' => 'Método não permitido',
-                    'messages' => []
+                    'messages' => $exception->getMessage()
                 ]
             ], 405);
         }
@@ -75,7 +75,7 @@ class Handler extends ExceptionHandler
             return response()->json([
                 'error' => [
                     'description' => 'Model não encontrado',
-                    'messages' => []
+                    'messages' => $exception->getMessage()
                 ]
             ], 404);
         }

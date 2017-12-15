@@ -7,12 +7,14 @@ use App\Services\ComentarioService;
 
 class ComentariosController extends Controller
 {
-    // private $request;
     public function __construct(ComentarioService $service){
         $this->service = $service;
     }
 
     // metodo que vai salvar os comentarios
+    /**
+     * Endpoint responsavel por salvar comentario
+     */
     public function salvar(Request $request){
         $validator = $this->service->comentarioValidator($request);
         if ($validator->fails()) {
@@ -24,8 +26,8 @@ class ComentariosController extends Controller
 
         $comentario = $this->service->salvar($request);
 
+        \Cache::forget('api::comentarios::postagem-'.$request->get('postagem_id'));
         return response()->json($comentario, 201);
-        //\Cache::forget('api::products');
     }
 
 }

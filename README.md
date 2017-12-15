@@ -15,17 +15,17 @@ APACHE2 OR NGINX
 
 Clonar repositório
 ```
-git clone https://github.com/cardoso010/api-comentarios
+$git clone https://github.com/cardoso010/api-comentarios
 ```
 Acessar o diretorio e atualizar o composer
 ```
-cd api-comentarios/
-sudo composer update
+$cd api-comentarios/
+$sudo composer update
 ```
 
 Criando arquivo .env
 ```
-cp .env.example .env 
+$cp .env.example .env 
 ```
 
 Alterando os seguintes campos com seu acesso ao banco de dados
@@ -40,17 +40,17 @@ DB_PASSWORD=secret
 
 Gerando nova key para o ambiente
 ```
-php artisan key:generate
+$php artisan key:generate
 ```
 
 Apos configurar o banco, gerando os dados fictícios
 ```
-php artisan db:seed
+$php artisan db:seed
 ```
 
 Executando projeto
 ```
-php artisan serve
+$php artisan serve
 ```
 
 ## Rotas
@@ -61,6 +61,47 @@ php artisan serve
 | /api/postagens/{postagem_id}/comentarios/  | **GET**  |
 | /api/usuarios/{usuario_id}/notificacoes/   | **GET**  |
 
+
+## Regras
+
+Usando dados do **seed**
+
+**/api/comentarios/**
+
+Usuários assinantes
+```
+{
+	"comentario": "usuário assinante comentando em um poste de um assinante",
+	"usuario_id": 1,
+	"postagem_id": 1
+}
+```
+
+Usuário não é assinante e o dono do poste não é assinante
+```
+{
+	"comentario": "usuário não assinante comentando em um poste de um não assinante",
+	"usuario_id": 2,
+	"postagem_id": 2
+}
+```
+
+Como o usuário está comprando destaque ele pode ser inserir o comentario mesmo não sendo assinante
+```
+{
+	"comentario": "usuário não assinante comentando em um poste de um não assinante, é pra inserir pois o usuario está comprando destaque",
+	"usuario_id": 2,
+	"postagem_id": 2,
+	"comprando_destaque": true
+}
+```
+
+**Não é possivel inserir mais que 5 comentarios em um intervalo de 10 segundos**
+
+
+**/api/postagens/{postagem_id}/comentarios/**
+
+**/api/usuarios/{usuario_id}/notificacoes/**
 
 ## Authors
 
