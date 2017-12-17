@@ -11,7 +11,7 @@ class PostagemService
         $this->postagem = $postagem;
     }
 
-    public function listaComentarioByPost($postagem_id, $paged){
+    public function listaComentarioByPost($postagem_id, $page){
         $paginacao = 15;
         //dd($paged);
         return DB::table('comentarios')
@@ -25,7 +25,7 @@ class PostagemService
                         )
                 ->where('comentarios.postagem_id', '=', $postagem_id)
                 ->orderBy('created_at', 'asc')
-                ->paginate($paginacao)->appends('paged', $paged);
+                ->paginate($paginacao)->appends('page', $page);
                 //->get();
     }
 

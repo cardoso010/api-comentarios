@@ -26,7 +26,8 @@ class ComentariosController extends Controller
 
         $comentario = $this->service->salvar($request);
 
-        \Cache::forget('api::comentarios::postagem-'.$request->get('postagem_id'));
+        //\Cache::forget('api::comentarios::postagem-'.$request->get('postagem_id'));
+        \Cache::flush();
         return response()->json($comentario, 201);
     }
 

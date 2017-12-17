@@ -14,13 +14,13 @@ class PostagensController extends Controller
 
     //
     public function listaComentario($postagem_id, Request $request){
-        $paged = 1;
-        if ($request->input('paged')) {
-            $paged = $request->input('paged');
+        $page = 1;
+        if ($request->input('page')) {
+            $page = $request->input('page');
         }
-        $minutes = \Carbon\Carbon::now()->addMinutes(10);
-        $comentarios = \Cache::remember('api::comentarios::postagem-'.$postagem_id.'-paged-'.$paged, $minutes, function () use ($postagem_id,$paged) {
-             return $this->service->listaComentarioByPost($postagem_id, $paged);
+        $minutes = \Carbon\Carbon::now()->addHours(3);
+        $comentarios = \Cache::remember('api::comentarios::postagem-'.$postagem_id.'-page-'.$page, $minutes, function () use ($postagem_id,$page) {
+             return $this->service->listaComentarioByPost($postagem_id, $page);
         });
 
         return response()->json($comentarios, 200);

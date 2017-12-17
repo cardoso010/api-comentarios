@@ -28,7 +28,8 @@ Criando arquivo .env
 $cp .env.example .env 
 ```
 
-Alterando os seguintes campos com seu acesso ao banco de dados
+Alterando os seguintes campos com seu acesso ao banco de dados.
+**Na criação do banco foi utilizado a collation utf8mb4_unicode_ci**
 ```
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
@@ -41,6 +42,11 @@ DB_PASSWORD=secret
 Gerando nova key para o ambiente
 ```
 $php artisan key:generate
+```
+
+Executar as migrations para criação do banco
+```
+$php artisan migrate
 ```
 
 Apos configurar o banco, gerando os dados fictícios
@@ -100,6 +106,10 @@ Como o usuário está comprando destaque ele pode ser inserir o comentario mesmo
 
 
 **/api/postagens/{postagem_id}/comentarios/**
+Endpoint responsavel por listar todos os comentarios de uma determinada postagem.
+- É listado em ordem cronológica
+- Existe paginação (na listagem vai existir um campo chamado **next_page_url** exemplo: http://127.0.0.1:8000/api/postagens/1/comentarios?page=2)
+- A consulta é guardada em cache para otimizar
 
 **/api/usuarios/{usuario_id}/notificacoes/**
 
