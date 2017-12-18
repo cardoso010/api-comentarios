@@ -92,7 +92,7 @@ Usuário não é assinante e o dono do poste não é assinante
 }
 ```
 
-Como o usuário está comprando destaque ele pode ser inserir o comentario mesmo não sendo assinante
+Como o usuário está comprando destaque ele pode inserir o comentario mesmo não sendo assinante
 ```
 {
 	"comentario": "usuário não assinante comentando em um poste de um não assinante, é pra inserir pois o usuario está comprando destaque",
@@ -118,7 +118,7 @@ Endpoint reponsavel por listar todos as notificações de um determinado usuario
 - É listado em ordem cronológica
 - A notificação é expirada após 3 horas da visualiação
 
-## Authors
+## Autor
 
 * **Gabriel Cardoso Luiz** - *Initial work* - [cardoso010](https://github.com/cardoso010)
 
