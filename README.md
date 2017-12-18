@@ -106,12 +106,17 @@ Como o usuário está comprando destaque ele pode ser inserir o comentario mesmo
 
 
 **/api/postagens/{postagem_id}/comentarios/**
+
 Endpoint responsavel por listar todos os comentarios de uma determinada postagem.
 - É listado em ordem cronológica
 - Existe paginação (na listagem vai existir um campo chamado **next_page_url** exemplo: http://127.0.0.1:8000/api/postagens/1/comentarios?page=2)
 - A consulta é guardada em cache para otimizar
 
 **/api/usuarios/{usuario_id}/notificacoes/**
+
+Endpoint reponsavel por listar todos as notificações de um determinado usuario.
+- É listado em ordem cronológica
+- A notificação é expirada após 3 horas da visualiação
 
 ## Authors
 

@@ -10,8 +10,6 @@ class Notificacao extends Model
 
     protected $fillable = ['postagem_id', 'usuario_id', 'data_visualizou'];
 
-    public $timestamps = false;
-
     public function usuario() {
         return $this->belongsTo('App\Models\Usuario');
     }
